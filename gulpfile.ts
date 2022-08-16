@@ -11,5 +11,5 @@ export function compileTypescript() {
 }
 
 export default function(done: () => void) {
-    series(clean, compileTypescript)(done);
+    void series(clean, compileTypescript)(done);
 }
