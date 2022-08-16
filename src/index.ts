@@ -6,7 +6,7 @@ import { startServer } from './test-server';
 export { startServer } from './test-server';
 
 if (require.main === module) {
-    (async function() {
+    void (async function() {
         console.log('Starting server...');
         console.log();
         const { addressBook, logicRegistry, operatorFactory, operatorLogic, orderbookFactory, tokens, orderbooks } = await startServer({

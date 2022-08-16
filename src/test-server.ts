@@ -42,7 +42,7 @@ export async function startServer({ dbPath, port = 8545, verbose }: ServerOption
     global.ethereum = server.provider;
     if (await getBlockNumber() == 0) {
         const signer = await createSigner('0x0000000000000000000000000000000000000000000000000000000000000001');
-        global.ethereum.send('evm_setAccountBalance', [ signer.address, hexstring(1000000000000000000000n) ]);
+        await global.ethereum.send('evm_setAccountBalance', [ signer.address, hexstring(1000000000000000000000n) ]);
         const addressBook      = (await signer.sendTransaction(await AddressBook.populateTransaction.deploy())).contractAddress;
         const logicRegistry    = (await signer.sendTransaction(await OperatorLogicRegistry.populateTransaction.deploy())).contractAddress;
                                  (await signer.sendTransaction(await OperatorFactory.populateTransaction.deploy(logicRegistry, addressBook))).contractAddress;

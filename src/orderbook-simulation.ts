@@ -18,7 +18,7 @@ interface Global {
 const global = globalThis as Global;
 
 export function startOrderbookSimulation(address: string, verbose = false) {
-    (async function() {
+    void (async function() {
         const signer = await createSigner(hexstringPad(address, 64));
         if (!await getBalance(signer.address)) {
             await global.ethereum?.send('evm_setAccountBalance', [ signer.address, hexstring(1000000000000000000000n) ]);
