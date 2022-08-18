@@ -1,6 +1,6 @@
 {
   "name": "@theorderbookdex/orderbook-dex-test-server",
-  "version": "0.1.0-rc.2",
+  "version": "0.1.0-rc.3",
   "description": "This package provides a testing RPC server for The Orderbook DEX",
   "license": "BUSL-1.1",
   "author": "The Orderbook DEX Team",
@@ -17,9 +17,9 @@
   "dependencies": {
     "@theorderbookdex/abi2ts-lib": "~0.2.0",
     "@theorderbookdex/addressbook": "^1.1.1",
-    "@theorderbookdex/orderbook-dex": "1.0.0-rc.3",
-    "@theorderbookdex/orderbook-dex-operator": "1.0.0-rc.4",
-    "@theorderbookdex/orderbook-dex-v1": "1.0.0-rc.2",
+    "@theorderbookdex/orderbook-dex": "1.0.0-rc.4",
+    "@theorderbookdex/orderbook-dex-operator": "1.0.0-rc.5",
+    "@theorderbookdex/orderbook-dex-v1": "1.0.0-rc.4",
     "ganache": "^7.4.1"
   },
   "devDependencies": {
