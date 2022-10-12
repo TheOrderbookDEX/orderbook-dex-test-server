@@ -1,12 +1,12 @@
 import ganache, { EthereumProvider } from 'ganache';
-import { AddressBook } from '@theorderbookdex/addressbook/dist/AddressBook';
+import { AddressBook } from '@frugal-wizard/addressbook/dist/AddressBook';
 import { ERC20Mock } from '@theorderbookdex/orderbook-dex/dist/testing/ERC20Mock';
 import { OperatorLogicRegistry } from '@theorderbookdex/orderbook-dex-operator/dist/OperatorLogicRegistry';
 import { OperatorFactory } from '@theorderbookdex/orderbook-dex-operator/dist/OperatorFactory';
 import { OperatorLogicV1 } from '@theorderbookdex/orderbook-dex-v1/dist/OperatorLogicV1';
 import { OrderbookCreated, OrderbookFactoryV1 } from '@theorderbookdex/orderbook-dex-v1/dist/OrderbookFactoryV1';
 import { startOrderbookSimulation } from './orderbook-simulation';
-import { createSigner, getBlockNumber, getContractAddress, hexstring } from '@theorderbookdex/abi2ts-lib';
+import { createSigner, getBlockNumber, getContractAddress, hexstring } from '@frugal-wizard/abi2ts-lib';
 
 export interface ServerOptions {
     dbPath?: string,
