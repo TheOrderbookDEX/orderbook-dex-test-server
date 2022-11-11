@@ -1,24 +1,24 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "Install",
-			"type": "shell",
-			"command": "npm install --no-save"
-		},
-		{
-			"label": "Compile",
-			"type": "npm",
-			"script": "prepare",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "Start",
-			"type": "npm",
-			"script": "start"
-		}
-	]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Install",
+            "type": "shell",
+            "command": "npm install --no-save"
+        },
+        {
+            "label": "Compile",
+            "type": "npm",
+            "script": "prepare",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Start",
+            "type": "npm",
+            "script": "start"
+        }
+    ]
 }
