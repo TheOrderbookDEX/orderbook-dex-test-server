@@ -68,7 +68,7 @@ export async function startServer({ dbPath, port = 8545, verbose }: ServerOption
     const USDT             = await getContractAddress(blockNumber++, 0);
     const tokens = { WBTC, WETH, BNB, WXRP, USDT };
     const orderbooks: { [pair: string]: string } = {};
-    for await (const { orderbook, tradedToken, baseToken } of OrderbookCreated.get({ fromBlock: 12, toBlock: 15 })) {
+    for await (const { orderbook, tradedToken, baseToken } of OrderbookCreated.get({ fromBlock: 11, toBlock: 14 })) {
         const pair = `${await ERC20Mock.at(tradedToken).symbol()}/${await ERC20Mock.at(baseToken).symbol()}`;
         orderbooks[pair] = orderbook;
         startOrderbookSimulation(orderbook, verbose);
