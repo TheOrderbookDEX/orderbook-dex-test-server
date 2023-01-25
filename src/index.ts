@@ -9,10 +9,12 @@ if (require.main === module) {
     void (async function() {
         console.log('Starting server...');
         console.log();
-        const { addressBook, operatorFactory, operatorV1, orderbookFactory, tokens, orderbooks } = await startServer({
+        const { treasury, addressBook, operatorFactory, operatorV1, orderbookFactory, tokens, orderbooks } = await startServer({
             dbPath: path.resolve(process.cwd(), 'db'),
             verbose: process.argv.includes('--verbose'),
         });
+        console.log('Treasury address:');
+        console.log(`    ${treasury}`);
         console.log('AddressBook address:');
         console.log(`    ${addressBook}`);
         console.log('OperatorFactory address:');

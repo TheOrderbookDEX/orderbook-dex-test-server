@@ -7,6 +7,7 @@ import { startOrderbookSimulation } from './orderbook-simulation';
 import { createSigner, getBlockNumber, getContractAddress, hexstring } from '@frugal-wizard/abi2ts-lib';
 import { OperatorV1 } from '@theorderbookdex/orderbook-dex-v1-operator/dist/OperatorV1';
 import { ERC20WithFaucet } from '@theorderbookdex/orderbook-dex/dist/testing/ERC20WithFaucet';
+import { OrderbookDEXTeamTreasury } from '@theorderbookdex/orderbook-dex-team-treasury/dist/OrderbookDEXTeamTreasury';
 
 export interface ServerOptions {
     dbPath?: string,
@@ -15,6 +16,7 @@ export interface ServerOptions {
 }
 
 export interface Server {
+    treasury: string;
     addressBook: string,
     operatorFactory: string;
     operatorV1: string;
@@ -47,10 +49,11 @@ export async function startServer({ dbPath, port = 8545, verbose }: ServerOption
         const signer = await createSigner('0x0000000000000000000000000000000000000000000000000000000000000001');
         await global.ethereum.send('evm_setAccountBalance', [ signer.address, hexstring(1000000000000000000000n) ]);
 
+        const treasury         = (await signer.sendTransaction(await OrderbookDEXTeamTreasury.populateTransaction.deploy([ signer.address ], 0n, 0n))).contractAddress;
         const addressBook      = (await signer.sendTransaction(await AddressBook.populateTransaction.deploy())).contractAddress;
         const operatorFactory  = (await signer.sendTransaction(await OperatorFactory.populateTransaction.deploy(signer.address, addressBook))).contractAddress;
         const operatorV1       = (await signer.sendTransaction(await OperatorV1.populateTransaction.deploy())).contractAddress;
-        const orderbookFactory = (await signer.sendTransaction(await OrderbookFactoryV1.populateTransaction.deploy(addressBook))).contractAddress;
+        const orderbookFactory = (await signer.sendTransaction(await OrderbookFactoryV1.populateTransaction.deploy(treasury, addressBook))).contractAddress;
 
         const WBTC = (await signer.sendTransaction(await ERC20WithFaucet.populateTransaction.deploy('Wrapped BTC',   'WBTC', 18,    1000000000000000000000n, ONE_DAY))).contractAddress;
         const WETH = (await signer.sendTransaction(await ERC20WithFaucet.populateTransaction.deploy('Wrapped Ether', 'WETH', 18,   10000000000000000000000n, ONE_DAY))).contractAddress;
@@ -68,6 +71,7 @@ export async function startServer({ dbPath, port = 8545, verbose }: ServerOption
 
     let blockNumber = 2;
 
+    const treasury         = await getContractAddress(blockNumber++, 0);
     const addressBook      = await getContractAddress(blockNumber++, 0);
     const operatorFactory  = await getContractAddress(blockNumber++, 0);
     const operatorV1       = await getContractAddress(blockNumber++, 0);
@@ -83,7 +87,7 @@ export async function startServer({ dbPath, port = 8545, verbose }: ServerOption
 
     const orderbooks: { [pair: string]: string } = {};
 
-    for await (const { orderbook, tradedToken, baseToken } of OrderbookCreated.get({ fromBlock: 11, toBlock: 14 })) {
+    for await (const { orderbook, tradedToken, baseToken } of OrderbookCreated.get({ fromBlock: blockNumber, toBlock: blockNumber + 3 })) {
         const pair = `${await ERC20Mock.at(tradedToken).symbol()}/${await ERC20Mock.at(baseToken).symbol()}`;
         orderbooks[pair] = orderbook;
         startOrderbookSimulation(orderbook, verbose);
@@ -91,5 +95,5 @@ export async function startServer({ dbPath, port = 8545, verbose }: ServerOption
 
     await server.listen(port);
 
-    return { addressBook, operatorFactory, operatorV1, orderbookFactory, tokens, orderbooks };
+    return { treasury, addressBook, operatorFactory, operatorV1, orderbookFactory, tokens, orderbooks };
 }
