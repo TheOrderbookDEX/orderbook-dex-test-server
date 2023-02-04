@@ -49,7 +49,13 @@ export async function startServer({ dbPath, port = 8545, verbose }: ServerOption
         const signer = await createSigner('0x0000000000000000000000000000000000000000000000000000000000000001');
         await global.ethereum.send('evm_setAccountBalance', [ signer.address, hexstring(1000000000000000000000n) ]);
 
-        const treasury         = (await signer.sendTransaction(await OrderbookDEXTeamTreasury.populateTransaction.deploy([ signer.address ], 0n, 0n))).contractAddress;
+        const signers = [
+            signer.address,
+            (await createSigner('0x0000000000000000000000000000000000000000000000000000000000000002')).address,
+            (await createSigner('0x0000000000000000000000000000000000000000000000000000000000000003')).address,
+        ].sort(compareHexString);
+
+        const treasury         = (await signer.sendTransaction(await OrderbookDEXTeamTreasury.populateTransaction.deploy(signers, 2n, 0n))).contractAddress;
         const addressBook      = (await signer.sendTransaction(await AddressBook.populateTransaction.deploy())).contractAddress;
         const operatorFactory  = (await signer.sendTransaction(await OperatorFactory.populateTransaction.deploy(signer.address, addressBook))).contractAddress;
         const operatorV1       = (await signer.sendTransaction(await OperatorV1.populateTransaction.deploy())).contractAddress;
@@ -96,4 +102,16 @@ export async function startServer({ dbPath, port = 8545, verbose }: ServerOption
     await server.listen(port);
 
     return { treasury, addressBook, operatorFactory, operatorV1, orderbookFactory, tokens, orderbooks };
+}
+
+function compareHexString(a: string, b: string): number {
+    const a_ = BigInt(a);
+    const b_ = BigInt(b);
+    if (a_ > b_) {
+        return 1;
+    } else if (a_ < b_) {
+        return -1;
+    } else {
+        return 0;
+    }
 }
