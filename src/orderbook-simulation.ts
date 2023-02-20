@@ -1,5 +1,5 @@
-import { createSigner, formatValue, getBalance, hexstring, hexstringPad } from '@frugal-wizard/abi2ts-lib';
-import { IAddressBook } from '@frugal-wizard/addressbook/dist/interfaces/IAddressBook';
+import { createSigner, formatValue, getBalance, hexstring, hexstringPad } from '@frugalwizard/abi2ts-lib';
+import { IAddressBook } from '@frugalwizard/addressbook/dist/interfaces/IAddressBook';
 import { EthereumProvider } from 'ganache';
 import { IOrderbookV1 } from '@theorderbookdex/orderbook-dex-v1/dist/interfaces/IOrderbookV1';
 import { IERC20WithFaucet } from '@theorderbookdex/orderbook-dex/dist/testing/interfaces/IERC20WithFaucet';
