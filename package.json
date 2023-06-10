@@ -1,6 +1,6 @@
 {
   "name": "@theorderbookdex/orderbook-dex-test-server",
-  "version": "0.1.0-rc.16",
+  "version": "0.1.0-rc.17",
   "description": "This package provides a testing RPC server for The Orderbook DEX",
   "license": "BUSL-1.1",
   "author": "The Orderbook DEX Team",
